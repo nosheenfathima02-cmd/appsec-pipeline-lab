@@ -1,0 +1,112 @@
+{
+  "summary": {
+    "raw_findings": 6,
+    "open": 0,
+    "unique_issues": 0,
+    "false_positives": 6,
+    "vulnerable_packages": 0,
+    "by_priority": {},
+    "by_owasp": {},
+    "by_tool": {
+      "semgrep (SAST)": 6
+    }
+  },
+  "findings": [
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "directly-returned-format-string",
+      "title": "Detected Flask route directly returning a formatted string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 52,
+      "location": "app.py:52",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "Username is HTML-encoded with markupsafe.escape() before it is returned; DAST XSS probe not reflected.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    },
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "directly-returned-format-string",
+      "title": "Detected Flask route directly returning a formatted string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 58,
+      "location": "app.py:58",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "Search term is HTML-encoded with markupsafe.escape(); DAST XSS and template-injection probes both negative.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    },
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "raw-html-format",
+      "title": "Detected user input flowing into a manually constructed HTML string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 58,
+      "location": "app.py:58",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "Search term is HTML-encoded with markupsafe.escape(); DAST XSS and template-injection probes both negative.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    },
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "raw-html-format",
+      "title": "Detected user input flowing into a manually constructed HTML string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 58,
+      "location": "app.py:58",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "Search term is HTML-encoded with markupsafe.escape(); DAST XSS and template-injection probes both negative.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    },
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "directly-returned-format-string",
+      "title": "Detected Flask route directly returning a formatted string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 76,
+      "location": "app.py:76",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "host is only returned after an exact allow-list check (127.0.0.1, localhost); no user-controlled markup possible.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    },
+    {
+      "tool": "semgrep (SAST)",
+      "rule": "directly-returned-format-string",
+      "title": "Detected Flask route directly returning a formatted string",
+      "severity": "Medium",
+      "cwe": "79",
+      "file": "app_fixed/app.py",
+      "line": 84,
+      "location": "app.py:84",
+      "owasp": "A03 Injection",
+      "status": "false_positive",
+      "reason": "Only an allow-listed hostname is returned, and it is encoded with escape(); SSRF probe rejected with HTTP 400.",
+      "confirmed_by_dast": false,
+      "risk": 5,
+      "priority": "P3 (fix in 90 days)"
+    }
+  ]
+}

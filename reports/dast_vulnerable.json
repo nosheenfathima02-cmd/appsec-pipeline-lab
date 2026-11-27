@@ -1,0 +1,101 @@
+[
+  {
+    "id": "DAST-HDR",
+    "tool": "dast",
+    "title": "Missing security headers",
+    "owasp": "A05 Security Misconfiguration",
+    "cwe": "CWE-693",
+    "severity": "Medium",
+    "location": "all responses",
+    "evidence": "missing: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options, Strict-Transport-Security",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-SQLI",
+    "tool": "dast",
+    "title": "SQL injection: login bypass",
+    "owasp": "A03 Injection",
+    "cwe": "CWE-89",
+    "severity": "Critical",
+    "location": "POST /login",
+    "evidence": "username=admin' -- returned: Welcome admin",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-SSTI",
+    "tool": "dast",
+    "title": "Server-side template injection",
+    "owasp": "A03 Injection",
+    "cwe": "CWE-1336",
+    "severity": "Critical",
+    "location": "GET /search",
+    "evidence": "q={{7*7}} rendered as 49",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-XSS",
+    "tool": "dast",
+    "title": "Reflected cross-site scripting",
+    "owasp": "A03 Injection",
+    "cwe": "CWE-79",
+    "severity": "High",
+    "location": "GET /search",
+    "evidence": "payload reflected without encoding",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-IDOR",
+    "tool": "dast",
+    "title": "Broken object-level authorization (IDOR)",
+    "owasp": "A01 Broken Access Control",
+    "cwe": "CWE-639",
+    "severity": "High",
+    "location": "GET /account/{id}",
+    "evidence": "alice read bob's account: {\n  \"balance\": 91000.0,\n  \"nickname\": \"Bob savings\"\n}\n",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-CMDI",
+    "tool": "dast",
+    "title": "OS command injection",
+    "owasp": "A03 Injection",
+    "cwe": "CWE-78",
+    "severity": "Critical",
+    "location": "GET /ping",
+    "evidence": "shell evaluated injected command (DAST_MARKER_42)",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-SSRF",
+    "tool": "dast",
+    "title": "Server-side request forgery to internal endpoint",
+    "owasp": "A10 SSRF",
+    "cwe": "CWE-918",
+    "severity": "High",
+    "location": "GET /preview",
+    "evidence": "fetched /internal/health: INTERNAL-ONLY: db=ok",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-DESER",
+    "tool": "dast",
+    "title": "Untrusted pickle data deserialized",
+    "owasp": "A08 Software and Data Integrity Failures",
+    "cwe": "CWE-502",
+    "severity": "High",
+    "location": "GET /prefs",
+    "evidence": "server unpickled attacker-supplied cookie",
+    "confirmed": true
+  },
+  {
+    "id": "DAST-DEBUG",
+    "tool": "dast",
+    "title": "Debug mode exposes stack traces / interactive debugger",
+    "owasp": "A05 Security Misconfiguration",
+    "cwe": "CWE-489",
+    "severity": "High",
+    "location": "GET /prefs (error)",
+    "evidence": "stack trace returned to client",
+    "confirmed": true
+  }
+]

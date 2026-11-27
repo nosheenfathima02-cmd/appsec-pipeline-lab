@@ -1,0 +1,10 @@
+[
+  {"tool": "semgrep", "file": "app_fixed/app.py", "line": 52, "status": "false_positive",
+   "reason": "Username is HTML-encoded with markupsafe.escape() before it is returned; DAST XSS probe not reflected."},
+  {"tool": "semgrep", "file": "app_fixed/app.py", "line": 58, "status": "false_positive",
+   "reason": "Search term is HTML-encoded with markupsafe.escape(); DAST XSS and template-injection probes both negative."},
+  {"tool": "semgrep", "file": "app_fixed/app.py", "line": 76, "status": "false_positive",
+   "reason": "host is only returned after an exact allow-list check (127.0.0.1, localhost); no user-controlled markup possible."},
+  {"tool": "semgrep", "file": "app_fixed/app.py", "line": 84, "status": "false_positive",
+   "reason": "Only an allow-listed hostname is returned, and it is encoded with escape(); SSRF probe rejected with HTTP 400."}
+]

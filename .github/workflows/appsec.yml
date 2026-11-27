@@ -1,0 +1,48 @@
+name: AppSec pipeline (DevSecOps)
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  appsec:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [vulnerable, fixed]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scanners and the app's dependencies
+        run: |
+          pip install bandit semgrep pip-audit
+          pip install -r app_fixed/requirements.txt
+      - name: SAST - Bandit
+        run: bandit -q -f json -o reports/bandit_${{ matrix.variant }}.json app_${{ matrix.variant }}/app.py || true
+      - name: SAST - Semgrep (OWASP Top 10, Flask, Dockerfile rules)
+        run: semgrep scan --metrics=off --config p/python --config p/flask --config p/owasp-top-ten --config p/dockerfile --json -o reports/semgrep_${{ matrix.variant }}.json app_${{ matrix.variant }} || true
+      - name: SCA - pip-audit
+        run: pip-audit -r app_${{ matrix.variant }}/requirements.txt -f json -o reports/sca_${{ matrix.variant }}.json || true
+      - name: Container security - Trivy (Dockerfile misconfiguration)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: config
+          scan-ref: app_${{ matrix.variant }}
+          format: table
+          exit-code: "0"
+      - name: DAST - HTTP scan of the running app
+        run: python dast/dast_scan.py app_${{ matrix.variant }} ${{ matrix.variant == 'vulnerable' && '5001' || '5002' }} reports/dast_${{ matrix.variant }}.json
+      - name: Risk-based triage and security gate (fails on any open P1)
+        run: python triage/triage.py ${{ matrix.variant }}
+        continue-on-error: ${{ matrix.variant == 'vulnerable' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: appsec-reports-${{ matrix.variant }}
+          path: reports/
