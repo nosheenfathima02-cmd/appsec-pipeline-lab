@@ -1,5 +1,7 @@
 # AppSec Pipeline Lab: SAST · SCA · DAST · Container Security · Risk-Based Triage
 
+[![AppSec pipeline](https://github.com/nosheenfathima02-cmd/appsec-pipeline-lab/actions/workflows/appsec.yml/badge.svg)](https://github.com/nosheenfathima02-cmd/appsec-pipeline-lab/actions/workflows/appsec.yml)
+
 An end-to-end **application security testing pipeline** run against a small banking-style web app, **ClientNotes**, which comes in two versions:
 
 - `app_vulnerable/`: intentionally insecure, with one flaw for most of the OWASP Top 10 (2021). **Training only; never deploy.**
@@ -9,7 +11,7 @@ The pipeline scans both versions, merges the results into one **risk-prioritized
 
 ![AppSec report](docs/appsec_report.png)
 
-## Results (real output of `./run_all.sh`)
+## Results (real output of `./run_all.sh` and the GitHub Actions run)
 
 | | Vulnerable app | Remediated app |
 |---|---|---|
@@ -18,6 +20,7 @@ The pipeline scans both versions, merges the results into one **risk-prioritized
 | P1 (fix in 7 days) / P2 / P3 | **14 / 47 / 38** | 0 |
 | DAST-confirmed exploitable issues | **9** | 0 |
 | SAST findings confirmed exploitable by DAST | **15** | n/a |
+| Container misconfigurations (Trivy, in CI) | **4** (1 Critical, 1 High, 1 Medium, 1 Low) | 0 |
 | False positives reviewed and documented | n/a | **6** |
 | CI security gate | fails (blocks the release) | passes |
 
